@@ -51,6 +51,7 @@ params = {
     'b_o': tf.get_variable(name='b_o', shape=(d_c))
 }
 
+'''
 c_0 = tf.zeros((m, d_c))
 h_0 = tf.zeros((m, d_h))
 
@@ -92,3 +93,5 @@ with tf.Session() as sess:
         if i % 1000 == 0:
             p, t = sess.run([predictions, truth], feed_dict={x: X, truth: y})
             print(p, t, c)
+
+'''
