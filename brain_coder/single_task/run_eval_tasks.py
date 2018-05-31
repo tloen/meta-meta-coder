@@ -278,7 +278,7 @@ if __name__ == '__main__':
   run(COMPILE_COMMAND)
 
   print('Launching %d coding tasks...' % len(tasks))
-  for task, task_settings in tasks.items():
+  for task, task_settings in tasks.iteritems():
     name = 'bf_rl_iclr'
     desc = '{0}.{1}_{2}'.format(args.desc, experiment_settings.name, task)
     job_name = '{}.{}'.format(name, desc)
