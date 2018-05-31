@@ -20,7 +20,7 @@ from collections import namedtuple
 import csv
 import os
 import re
-import StringIO
+import io as StringIO
 import sys
 
 from absl import app
