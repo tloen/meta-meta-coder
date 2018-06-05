@@ -916,6 +916,84 @@ class DedupTask(KnownCodeBaseTask):
 # ==============================================================================
 
 
+'''
+class PermuteTask(BaseTask):
+  """
+  Permute sequence task.
+  """
+  def __init__(self):
+    super(type(self), self).__init__()
+    self.base = 256
+    self.input_type = misc.IOType.integer
+    self.output_type = misc.IOType.integer
+    self._io_pairs = self._make_io_examples(n)
+
+  def _make_io_examples(self, n):
+    """Generate test cases for the task."""
+    rand = random.Random(6849275409234)  # Test cases are fixed, but varied.
+    io_examples = [
+        ([4, 0], [4, 0]),
+        ([0, 5], [5, 0]),
+        ([1, 2], [3, 0]),
+        ([67, 21], [88, 0]),
+        ([55, 56], [111, 0]),
+        ([128, 33], [161, 0]),
+        ([221, 251], [216, 0]),
+        ([130, 127], [1, 0]),
+        ([255, 1], [0, 0])]
+    extra_examples = max(n - len(io_examples), 0)
+    for _ in xrange(extra_examples):
+      a = rand.randrange(256)
+      b = rand.randrange(256)
+      input_seq = [a, b]
+      output_seq = [(a + b) % 256, 0]
+      io_examples.append((input_seq, output_seq))
+    return io_examples
+
+  def make_io_set(self):
+    return copy.deepcopy(self._io_pairs)
+'''
+
+class AddTask(BaseTask):
+  """Addition coding task.
+
+  Code needs to read in two integers and output their sum mod the BF base,
+  followed by a terminating 0.
+  """
+
+  def __init__(self, n=16):
+    super(type(self), self).__init__()
+    self.base = 256
+    self.input_type = misc.IOType.integer
+    self.output_type = misc.IOType.integer
+    self._io_pairs = self._make_io_examples(n)
+
+  def _make_io_examples(self, n):
+    """Generate test cases for the task."""
+    rand = random.Random(6849275409234)  # Test cases are fixed, but varied.
+    io_examples = [
+        ([4, 0], [4, 0]),
+        ([0, 5], [5, 0]),
+        ([1, 2], [3, 0]),
+        ([67, 21], [88, 0]),
+        ([55, 56], [111, 0]),
+        ([128, 33], [161, 0]),
+        ([221, 251], [216, 0]),
+        ([130, 127], [1, 0]),
+        ([255, 1], [0, 0])]
+    extra_examples = max(n - len(io_examples), 0)
+    for _ in xrange(extra_examples):
+      a = rand.randrange(256)
+      b = rand.randrange(256)
+      input_seq = [a, b]
+      output_seq = [(a + b) % 256, 0]
+      io_examples.append((input_seq, output_seq))
+    return io_examples
+
+  def make_io_set(self):
+    return copy.deepcopy(self._io_pairs)
+
+
 class PrintIntTask(BaseTask):
   """Print integer coding task.
 

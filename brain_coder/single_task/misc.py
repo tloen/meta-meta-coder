@@ -15,8 +15,10 @@ from six import string_types
 
 BF_EOS_INT = 0  # Also used as SOS (start of sequence).
 BF_EOS_CHAR = TEXT_EOS_CHAR = '_'
-BF_LANG_INTS = range(1, 9)
-BF_INT_TO_CHAR = [BF_EOS_CHAR, '>', '<', '+', '-', '[', ']', '.', ',']
+# BF_LANG_INTS = range(1, 9)
+# BF_INT_TO_CHAR = [BF_EOS_CHAR, '>', '<', '+', '-', '[', ']', '.', ',']
+BF_LANG_INTS = range(1, 4)
+BF_INT_TO_CHAR = [BF_EOS_CHAR, '>', '<', '.', ',']
 BF_CHAR_TO_INT = dict([(c, i) for i, c in enumerate(BF_INT_TO_CHAR)])
 
 
