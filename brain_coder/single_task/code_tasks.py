@@ -33,7 +33,7 @@ def make_task(task_name, override_kwargs=None, max_code_length=100,
       'print-hello': (
           PrintTask, dict(base=27, fixed_string=[8, 5, 12, 12, 15])),
       'print': (PrintIntTask, dict(base=256, fixed_string=[1, 2, 3, 4, 5])),
-      'echo': (EchoTask, dict(base=27, min_length=1, max_length=6)),
+      'echo': (EchoTask, dict(base=27, length=4)),
       'remove-char': (
           RemoveCharTask, dict(base=256, n=n, min_len=1, max_len=6)),
       'reverse': (
@@ -1012,6 +1012,24 @@ class PrintIntTask(BaseTask):
   def make_io_set(self):
     return [(list(), list(self.fixed_string))]
 
+def genPM(d):
+	pm = np.zeros((d,d))
+	colsleft = np.arange(d)
+	rangeBound = d-1;
+	for x in range(0,d):
+		col = random.randint(0, rangeBound)
+		pm[x,colsleft[col]] = 1
+		colsleft = np.delete(colsleft,col)
+		rangeBound -= 1
+	return pm
+
+def genIO(pm,ninputs):
+	veclen = pm.shape[0]
+	inp = np.zeros((veclen, ninputs))
+	for x in range(0,veclen):
+		for y in range(0,ninputs):
+		 	inp[x,y] = random.randint(0,9)
+	return inp, np.matmul(pm,inp)
 
 class EchoTask(BaseTask):
   """Echo string coding task.
@@ -1019,12 +1037,13 @@ class EchoTask(BaseTask):
   Code needs to pipe input to putput (without any modifications).
   """
 
-  def __init__(self, base, min_length=1, max_length=5):
+  def __init__(self, base, length = 5):
     super(type(self), self).__init__()
     self.base = base  # base includes EOS
     self.eos = 0
-    self.min_length = min_length
-    self.max_length = max_length
+    self.length = length
+
+    self.P = genPM(length)
     self._io_pairs = self._make_io_examples(25)
 
   def _make_io_examples(self, n):
@@ -1032,9 +1051,10 @@ class EchoTask(BaseTask):
     np_random = np.random.RandomState(1234567890)
     io_pairs = []
     for _ in xrange(n):
-      length = np_random.randint(self.min_length, self.max_length + 1)
-      input_seq = np_random.randint(1, self.base, length).tolist() + [self.eos]
-      output_seq = list(input_seq)
+      length = np_random.randint(self.length, self.length + 1)
+      input_seq = np_random.randint(1, self.base, length).tolist()
+      output_seq = self.P.dot(input_seq).tolist() + [self.eos]
+      input_seq += [self.eos]
       io_pairs.append((input_seq, output_seq))
     return io_pairs
 

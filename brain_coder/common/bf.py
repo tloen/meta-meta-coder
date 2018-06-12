@@ -32,7 +32,10 @@ class Status(object):
   SYNTAX_ERROR = 'syntax-error'
 
 
-CHARS = INT_TO_CHAR = ['>', '<', '+', '-', '[', ']', '.', ',']
+# INT_TO_CHAR = ['>', '<', '+', '-', '[', ']', '.', ',']
+# CHARS = ['>', '<', '+', '-', '[', ']', '.', ',']
+INT_TO_CHAR = CHARS = ['>', '<', '.', ',']
+
 CHAR_TO_INT = dict([(c, i) for i, c in enumerate(INT_TO_CHAR)])
 
 
@@ -189,6 +192,7 @@ def evaluate(code, input_buffer=None, init_memory=None, base=256, timeout=1.0,
     if command == '<':
       cellptr = 0 if cellptr <= 0 else cellptr - 1
 
+    '''
     if command == '+':
       cells[cellptr] = cells[cellptr] + 1 if cells[cellptr] < (base - 1) else 0
 
@@ -197,6 +201,7 @@ def evaluate(code, input_buffer=None, init_memory=None, base=256, timeout=1.0,
 
     if command == '[' and cells[cellptr] == 0: codeptr = bracemap[codeptr]
     if command == ']' and cells[cellptr] != 0: codeptr = bracemap[codeptr]
+    '''
 
     if command == '.': output_buffer.append(cells[cellptr])
     if command == ',': cells[cellptr] = next(input_iter, null_value)
