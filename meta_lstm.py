@@ -7,7 +7,7 @@ dim_in = 20
 dim_main = 100
 dim_out = 20
 dim_x = 10
-m = 2
+m = 1
 
 pr = 4
 
@@ -111,13 +111,16 @@ predictions = tf.nn.softmax(predictions)
 
 with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
+    C = 0.
     for i in range(100000):
         X, y = generate_example()
         c, _ = sess.run([loss, train_op], feed_dict={x: X, P: Ps[0], problem_index: 0})
+        C = .999 * C + .001 * c
         if i % 1000 == 0:
             p, t = sess.run([predictions, exp_output], feed_dict={x: X, P: Ps[0], problem_index: 0})
             print(p)
+            # print(Ps[0])
             print(t)
-            print(c)
+            print(C)
 
     
